@@ -24,4 +24,6 @@ for (let i = 0; i < pokemonList.length; i++) {
 if (pokemonList[i].height > 1.7) {
   document.write (" -Wow, that's big!");
 }
+//Adds line breaks after each pokemon name
+  document.write("<br><br>");
 }
