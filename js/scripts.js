@@ -16,12 +16,12 @@ let pokemonList = [
   },
 ];
 
-for (let i = 0; i < pokemonList.length; i++)
-{
+for (let i = 0; i < pokemonList.length; i++) {
   //Pokemon name and height to the DOM
   document.write (pokemonList[i].name + "(height: " + pokemonList[i].height + ")");
-}
+
   //if pokemon height is greater than 1.8, writes Wow, that's big
 if (pokemonList[i].height > 1.7) {
   document.write (" -Wow, that's big!");
+}
 }
