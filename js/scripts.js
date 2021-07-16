@@ -27,3 +27,17 @@ if (pokemonList[i].height > 1.7) {
 //Adds line breaks after each pokemon name
   document.write("<br><br>");
 }
+
+function div(dividend,divisor) {
+  if (divisor === 0){
+    return "You're trying to divide by zero."
+  }else {
+      let result = dividend / divisor;
+      return result;
+    }
+  }
+
+  console.log(divide(4, 2));
+  
+
+}
