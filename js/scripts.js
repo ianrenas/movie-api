@@ -38,6 +38,3 @@ function div(dividend,divisor) {
   }
 
   console.log(divide(4, 2));
-  
-
-}
