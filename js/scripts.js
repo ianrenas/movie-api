@@ -16,9 +16,10 @@ let pokemonList = [
   },
 ];
 
-for (let i = 0; i < pokemonList.length; i++) {
+pokemonList.forEach (function(pokemon) {
   //Pokemon name and height to the DOM
-  document.write (pokemonList[i].name + "(height: " + pokemonList[i].height + ")");
+  document.write (pokemon.name + pokemon.height);
+});
 
   //if pokemon height is greater than 1.8, writes Wow, that's big
 if (pokemonList[i].height > 1.7) {
@@ -37,4 +38,7 @@ function div(dividend,divisor) {
     }
   }
 
-  console.log(divide(4, 2));
+  console.log(div(4, 2));
+  console.log(div(7, 0));
+  console.log(div(1, 4));
+  console.log(div(12, -3));
