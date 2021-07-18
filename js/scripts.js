@@ -18,7 +18,7 @@ let pokemonList = [
 
 pokemonList.forEach(function(pokemon) {
   //Pokemon name and height to the DOM
-  document.write ("pokemon.name" + "pokemon.height");
+  document.write (pokemon.name + pokemon.height);
 });
 
   //if pokemon height is greater than 1.8, writes Wow, that's big
@@ -27,7 +27,7 @@ if (pokemonList[i].height > 1.7) {
 }
 //Adds line breaks after each pokemon name
   document.write ("<br><br>");
-}
+
 
 function div(dividend,divisor) {
   if (divisor === 0){
