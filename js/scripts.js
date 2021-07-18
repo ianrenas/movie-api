@@ -22,7 +22,7 @@ pokemonList.forEach(function(pokemon) {
 });
 
   //if pokemon height is greater than 1.8, writes Wow, that's big
-if (pokemonList[i].height > 1.7) {
+if (pokemon.height > 1.7) {
   document.write (" -Wow, that's big!");
 }
 //Adds line breaks after each pokemon name
