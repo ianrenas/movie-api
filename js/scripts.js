@@ -16,29 +16,38 @@ let pokemonList = [
   },
 ];
 
-let pokemonRepository = (function () {
-  let pokemonList = [];
-  function add(pokemon) {
-    pokemonList.push(pokemon);
+let pokemonRepository = (function() {
+
+   let pokemonList = [];
+
+   function add(pokemon) {
+      if (typeof pokemon === "object") {
+         pokemonList.push(pokemon);
+      }
   }
-  function getAll () {
-    return pokemonList;
-  }
-  return {
-    add: add,
-    getAll: getAll
-  };
+
+   function getAll() {
+      return pokemonList;
+   }
+
+   return {
+      add: add,
+      getAll: getAll
+   }
 })();
 
-pokemonList.forEach(function(pokemon) {
-  //forEach function created to write to the DOM
+pokemonRepository.add({
+    name: 'Venusaur',
+    height: 2,
+    types: ['grass', 'poison']
+});
+
+pokemonRepository.getAll().forEach(function (pokemon) {
   document.write (pokemon.name + pokemon.height);
+});
+
 
   //if pokemon height is greater than 1.8, writes Wow, that's big
   if (pokemon.height > 1.7) {
     document.write (" -Wow, that's big!");
   }
-
-  //Adds line breaks after each pokemon name
-  document.write ('<br><br>')
-});
