@@ -16,6 +16,20 @@ let pokemonList = [
   },
 ];
 
+let pokemonRepository = (function () {
+  let pokemonList = [];
+ function add(pokemon) {
+   pokemon.List.push(pokemon);
+ }
+ function getAll () {
+   return pokemonList;
+ }
+ return {
+   add: add,
+   getAll: getAll
+ };
+})();
+
 pokemonList.forEach(function(pokemon) {
   //Pokemon name and height to the DOM
   document.write (pokemon.name + pokemon.height);
@@ -26,19 +40,4 @@ if (pokemon.height > 1.7) {
   document.write (" -Wow, that's big!");
 }
 //Adds line breaks after each pokemon name
-  document.write ("<br><br>");
-
-
-function div(dividend,divisor) {
-  if (divisor === 0){
-    return "You're trying to divide by zero."
-  }else {
-      let result = dividend / divisor;
-      return result;
-    }
-  }
-
-  console.log(div(4, 2));
-  console.log(div(7, 0));
-  console.log(div(1, 4));
-  console.log(div(12, -3));
+  document.write ('<br><br>')
