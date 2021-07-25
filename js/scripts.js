@@ -1,40 +1,60 @@
 let pokemonRepository = (function() {
-	let pokemonList = [
-		{
-			name: "Venusaur",
-			height: 2,
-			types: ["grass", "poison"],
-		},
-		{
-			name: "Charizard",
-			height: 1.7,
-			types: ["fire", "flying"],
-		},
-		{
-			name: "Nidoking",
-			height: 1.4,
-			types: ["ground", "poison"],
-		},
-	];
+  let pokemonList = [
+    {
+      name: "Venusaur",
+      height: 2,
+      types: ["grass", "poison"],
+    },
+    {
+      name: "Charizard",
+      height: 1.7,
+      types: ["fire", "flying"],
+    },
+    {
+      name: "Nidoking",
+      height: 1.4,
+      types: ["ground", "poison"],
+    },
+  ];
 
-	function getAll() {
-		return pokemonList;
-	}
+  //returns pokemonList
+  function getAll() {
+    return pokemonList;
+  }
 
-	function add(pokemon) {
-		if (typeof pokemon === "object" && "name" in pokemon) {
-			pokemonList.push(pokemon);
-		} else {
-			console.log(
-				"pokemon needs to be an object and contains a name property"
-			);
-		}
-	}
+  function addListItem(pokemon){
+    let pokemonList = document.querySelector('.pokemon-list');//variable used for <ul> in index.html
+    let listpokemon = document.createElement('li');//variable creating the list item
+    let button = document.createElement('button'); // variable creating a button
+    button.innerText = pokemon.name; // assigns the button text to pokemon name
+    button.classList.add("button-class");//for CSS styling
+    listpokemon.appendChild(button);
+    pokemonList.appendChild(listpokemon);
+    button.addEventListener('click', function(){
+      showDetails(pokemon);
+    });
+  }
 
-	return {
-		getAll: getAll,
-		add: add
-	}
+  function showDetails(pokemon) {
+    console.log(pokemon);
+  }
+
+  //adds new objects to the list from the outside
+  function add(pokemon) {
+    if (typeof pokemon === "object" && "name" in pokemon) {
+      pokemonList.push(pokemon);
+    } else {
+      console.log(
+        "pokemon needs to be an object and contains a name property"
+      );
+    }
+  }
+
+  return {
+    getAll: getAll,
+    add: add,
+    addListItem: addListItem
+  }
 
 })();
 
@@ -46,19 +66,8 @@ let newPokemon = {
 
 pokemonRepository.add(newPokemon);
 
-pokemonRepository.getAll().forEach(function (pokemon) {
-  //Pokemon name and height to the DOM
-  document.write(pokemon.name + "(height: " + pokemon.height + ")");
+pokemonRepository.getAll().forEach(function(pokemon) {
+  pokemonRepository.addListItem(pokemon);
 
-  //if pokemon height is greater than 1.8, writes Wow, that's big
-  if (pokemon.height > 1.7) {
-    document.write (" -Wow, that's big!");
-	}
 
-	//Adds line breaks after each pokemon name
-  document.write("<br><br>");
 });
-
-
-
-// TO HERE
