@@ -1,0 +1,12 @@
+# Ignores Dependency directories
+node_modules/
+
+# Optional npm cache directory
+.npm
+
+# Ignores build/generate output
+dist
+
+# Ignores parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
