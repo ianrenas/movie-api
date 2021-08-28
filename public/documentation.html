@@ -9,6 +9,176 @@
 
 <body>
   <h1>Documentation</h1>
-</body>
+  <table>
+    <thead>
+      <tr>
+        <th>Business Logic</th>
+        <th>URL</th>
+        <th>Query Parameter</th>
+        <th>HTTP Method</th>
+        <th>Request Format</th>
+        <th>Response Format</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Return a list of ALL movies</td>
+        <td> /movies </td>
+        <td> none </td>
+        <td> GET </td>
+        <td> None </td>
+        <td> JSON object holding data about all the movies </td>
+      </tr>
 
-</html>
+      <tr>
+        <td>Return data about a single movie by title</td>
+        <td>/movies/[Title]</td>
+        <td>/movies/:Title</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>
+          A JSON object holding data about a single movie containing an id,
+          title, director, genre, description, imageURL, featured and year<br>
+          Example:<br>
+          {
+            <br>"_id":
+            <br>"Title":
+            <br>"Year":
+            <br>"Director":
+            <br>"Genre":
+            <br>"Description":
+            <br>"ImgPath":
+            <br>"Featured":  <br> }
+          </td>
+        </tr>
+
+        <tr>
+          <td>Return data about a genre by name</td>
+          <td>/genres/[Name]</td>
+          <td>/genres/:Name</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>A JSON object holding data about a genre<br>
+            Example:<br>
+            {
+              <br>"_id":
+              <br>"Name":
+              <br>"Description": <br> }
+            </td>
+          </tr>
+
+          <tr>
+            <td>Return data about a director by name</td>
+            <td>/directors/[Name]</td>
+            <td>/directors/:Name</td>
+            <td>GET</td>
+            <td>None</td>
+            <td>A JSON object holding data about a director<br>
+              Example:<br> {
+                <br>"_id":
+                <br>"Name":
+                <br>"Bio":
+                <br>"Birthyear":  <br> }
+              </tr>
+
+              <tr>
+                <td>Allow new users to register</td>
+                <td>/users</td>
+                <td>None</td>
+                <td>POST</td>
+                <td>A JSON object holding data about the registered users<br>
+                  Example:<br> {
+                    <br>"Username":
+                    <br>"First Name":
+                    <br>"Last Name":
+                    <br>"Password": <br> }
+                  </td>
+                  <td>A JSON object holding data about the user that was registered, inculding an ID:<br>
+                    Example:<br> {
+                      <br> _id:
+                      <br>"Username:
+                      <br>"FirstName":
+                      <br>"LastName":
+                      <br>"Password":
+                      <br>"Email":
+                      <br>"FavoriteMovies": [] <br> }
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Allow users to update their info</td>
+                    <td>/users/[username]</td>
+                    <td>/users/:username</td>
+                    <td>PUT</td>
+                    <td>A JSON object holding data about the users update <em>e.g.:</em> <br> {
+                      <br>"Username":
+                      <br>"FirstName":
+                      <br>"LastName":
+                      <br>"Password":
+                      <br>"Email":
+                    }
+                  </td>
+                  <td>A JSON object holding data about the updated user includind an ID <br>
+                    Example:<br> {
+                      <br>"_id":
+                      <br>"Username":
+                      <br>"FirstName":
+                      <br>"LastName":
+                      <br>"Password":
+                      <br>"Email":
+                    }
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Allow users to add movies to their list of favorites</td>
+                  <td>/users/[Username]/favorites/[MovieID]</td>
+                  <td>/users/:Username/favorites/:MovieID</td>
+                  <td>POST</td>
+                  <td>None</td>
+                  <td>A JSON object holding data about the movie which added to favorites and about the user who added<br>
+                    Example:<br> {
+                      <br> "FavoriteMovies":
+                      <br>"_id":
+                      <br>"FirstName":
+                      <br>"LastName":
+                      <br>"Username":
+                      <br>"Password":
+                      <br>"Email":
+                    }
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Allow users to remove movies from their list of favorites</td>
+                  <td>/users/[Username]/removeFromFav/[MovieID]</td>
+                  <td>/users/:Username/removeFromFav/:MovieID</td>
+                  <td>DELETE</td>
+                  <td>None</td>
+                  <td>A JSON object holding data the user who deleted. Note that the MovieID is not present FavoriteMovies array. <br> <em>e.g.:</em> <br> {
+                    <br> "FavoriteMovies": [],
+                    <br>"_id":
+                    <br>"FirstName":
+                    <br>"LastName":
+                    <br>"Username":
+                    <br>"Password":
+                    <br>"Email":
+                  }
+                </td>
+              </tr>
+
+              <tr>
+                <td>Allow existing users to deregister</td>
+                <td>/users/[Username]</td>
+                <td>/users/:Username</td>
+                <td>DELETE</td>
+                <td>None</td>
+                <td>A text message indicating whether the user was successfully deregistered</td>
+              </tr>
+            </tbody>
+          </table>
+
+
+        </body>
+
+        </html>
