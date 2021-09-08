@@ -1,3 +1,9 @@
+const mongoose = require('mongoose');
+const Models = require('./models.js');
+
+const Movies = Models.Movie;
+const Users = Models.User;
+
 const express = require('express'),
 morgan = require('morgan'),
 bodyParser = require('body-parser'),
@@ -12,6 +18,8 @@ app.use(morgan('common'));
 app.use(express.static('public'));
 // Using body-parser
 app.use(bodyParser.json());
+
+mongoose.connect('mongodb://localhost:27017/movie-apiDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 // My topTenMovies array
@@ -94,9 +102,39 @@ app.get("/directors/:Name", (req, res) => {
   res.send("Successful GET request returning directors");
 });
 
-// Add a new user to register
-app.post("/users", (req, res) => {
-  res.send("Successful POST adding user");
+//Add a user
+/* We’ll expect JSON in this format
+{
+  ID: Integer,
+  Username: String,
+  Password: String,
+  Email: String,
+  Birthday: Date
+}*/
+app.post('/users', (req, res) => {
+  Users.findOne({ Username: req.body.Username })
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.Username + 'already exists');
+      } else {
+        Users
+          .create({
+            Username: req.body.Username,
+            Password: req.body.Password,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
+          })
+          .then((user) =>{res.status(201).json(user) })
+        .catch((error) => {
+          console.error(error);
+          res.status(500).send('Error: ' + error);
+        })
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    });
 });
 
 // Update user info
