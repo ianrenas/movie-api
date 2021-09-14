@@ -4,6 +4,7 @@ const Models = require('./models.js');
 const Movies = Models.Movie;
 const Users = Models.User;
 
+
 const express = require('express'),
 morgan = require('morgan'),
 bodyParser = require('body-parser'),
@@ -22,160 +23,208 @@ app.use(bodyParser.json());
 mongoose.connect('mongodb://localhost:27017/movie-apiDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 
-// My topTenMovies array
-let topTenMovies = [
-  {
-    id: '1',
-    title: 'The Lost Boys',
-    year: '1987'
-  },
-  {
-    id: '2',
-    title: 'The Empire Strikes Back',
-    year: '1980'
-  },
-  {
-    id: '3',
-    title: 'Back to the Future',
-    year: '1985'
-  },
-  {
-    id: '4',
-    title: 'Stand by Me',
-    year: '1986'
-  },
-
-  {
-    id: '5',
-    title: 'Beverly Hills Cop',
-    year: '1984'
-  },
-  {
-    id: '6',
-    title: 'The Breakfast Club',
-    year: '1985'
-  },
-  {
-    id: '7',
-    title: 'Raiders of the Lost Ark',
-    year: '1981'
-  },
-  {
-    id: '8',
-    title: 'The Karate Kid',
-    year: '1984'
-  },
-  {
-    id: '9',
-    title: 'Ghostbusters',
-    year: '1984'
-  },
-  {
-    id: '10',
-    title: 'Top Gun',
-    year: '1986'
-  }
-]
 
 // Get Request-Returns a welcome message
 app.get('/', (req, res) => {
-  res.send('Welcome to my Super-80s-Flix movie database!');
+  res.send('Welcome to my Super-Cina-Flix movie database!');
 });
 
-// Get Request-Returns my top ten movies
+
+// This is the first requirement
+// Return a list of ALL movies to the user
 app.get('/movies', (req, res) => {
-  res.json(topTenMovies);
+  // When "find" is executed is going to return a promise with the movies that it found
+  Movies.find()
+  .then(movies => {
+    // movies contains the movies founded in the mongodb, this is the same as this
+    // res.json(topTenMovies); but instead of having hardcoded now those came from the db
+    res.json(movies)
+  })
+  .catch(error => {
+    // this will be manage the error, we will console log the error and return
+    // the error to the browser as well
+    console.log(error);
+    res.status(500).send("Error: " + error);
+  });
 });
 
-// Get data about a certain movie, by title
+
+// This is the second requirement
+// Get single movie by title to the user
 app.get('/movies/:Title', (req, res) => {
-  res.send("Successful GET request returning data about a certain movie")
-});
+  Movies.findOne({ Title: req.params.Title })
+   .then(movie => {
+     res.json(movie);
+   })
+   .catch(error => {
+     console.log(error);
+     res.status(500).send('Error: ' + error);
+   });
+ });
 
+
+// This is the third requirement
 // Get data about genre
 app.get('/genres/:Name', (req, res) => {
-  res.send("Successful GET request returning genres")
+  Genres.findOne({ Name: req.params.Name })
+    .then(genre => {
+      res.json(genre);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
+// This is the fourth requirement
 // Get data about director
 app.get("/directors/:Name", (req, res) => {
-  res.send("Successful GET request returning directors");
-});
+  Directors.findOne({ Name: req.params.Name })
+    .then(director => {
+      res.json(director);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).send('Error: ' + error);
+    });
+  });
 
+// This is the fifth requirement
 //Add a user
 /* We’ll expect JSON in this format
 {
-  ID: Integer,
-  Username: String,
-  Password: String,
-  Email: String,
-  Birthday: Date
+ID: Integer,
+Username: String,
+Password: String,
+Email: String,
+Birthday: Date
 }*/
 app.post('/users', (req, res) => {
   Users.findOne({ Username: req.body.Username })
-    .then((user) => {
-      if (user) {
-        return res.status(400).send(req.body.Username + 'already exists');
-      } else {
-        Users
-          .create({
-            Username: req.body.Username,
-            Password: req.body.Password,
-            Email: req.body.Email,
-            Birthday: req.body.Birthday
-          })
-          .then((user) =>{res.status(201).json(user) })
-        .catch((error) => {
-          console.error(error);
+  .then(user => {
+    if (user) {
+      return res.status(400).send(req.body.Username + 'already exists');
+    } else {
+      Users
+      .create({
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+      })
+      .then(user =>{res.status(201).json(user) })
+      .catch(error => {
+          console.log(error);
           res.status(500).send('Error: ' + error);
         })
       }
     })
-    .catch((error) => {
-      console.error(error);
+    .catch(error => {
+      console.log(error);
       res.status(500).send('Error: ' + error);
     });
 });
 
-// Update user info
-app.put("/users/:username", (req, res) => {
-  res.send("Successful PUT updating user info ");
+// This is the sixth requirement
+// Update a user's info, by username
+/* We’ll expect JSON in this format
+{
+Username: String,
+(required)
+Password: String,
+(required)
+Email: String,
+(required)
+Birthday: Date
+}*/
+app.put('/users/:Username', (req, res) => {
+  Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
+    {
+      Username: req.body.Username,
+      Password: req.body.Password,
+      Email: req.body.Email,
+      Birthday: req.body.Birthday
+    }
+  },
+  { new: true }, // This line makes sure that the updated document is returned
+  (error, updatedUser) => {
+    if(error) {
+      console.log(error);
+      res.status(500).send('Error: ' + error);
+    } else {
+      res.json(updatedUser);
+    }
+  });
 });
 
-
-// Add a movie
-app.post('/users/:Username/favorites/:MovieID', (req, res) => {
-  res.send("Successful POST adding movie to favorites");
+// This is the seventh requirement
+// Post a movie to a user's list of favorites
+app.post('/users/:Username/movies/:MovieID', (req, res) => {
+  Users.findOneAndUpdate({ Username: req.params.Username }, {
+    $push: { FavoriteMovies: req.params.MovieID }
+  },
+  { new: true }, // This line makes sure that the updated document is returned
+  (error, updatedUser) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send('Error: ' + error);
+    } else {
+      res.json(updatedUser);
+    }
+  });
 });
 
+// This is the eighth requirement
 // Delete a movie from the list of favorites
-app.delete('/users/:Username/removeFromFav/:MovieID', (req, res) => {
-  res.send("Successful DELETE of movie from list of favorites");
+app.delete('/users/:Username/movies/:MovieID', (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.Username},
+    { $pull: { FavoriteMovies: req.params.MovieID}},
+    { new: true},
+    (error, updateUser) => {
+      if (error) {
+        console.log(error);
+        res.status(500).send('Error: ' + error);
+      } else {
+        res.json(updateUser);
+    }
+  });
 });
 
-  // Allows users to deregister
-  app.delete('/users', (req, res) => {
-    res.send("Successful DELETE of user");
+// This is the ninth requirement
+// Delete a user by username
+app.delete('/users/:Username', (req, res) => {
+  Users.findOneAndRemove({ Username: req.params.Username })
+  .then(user => {
+    if (!user) {
+      res.status(400).send(req.params.Username + ' was not found');
+    } else {
+      res.status(200).send(req.params.Username + ' was deleted.');
+    }
+  })
+  .catch(error => {
+    console.log(error);
+    res.status(500).send('Error: ' + error);
   });
+});
+
+
+// Do I need this code?
+//Get Request-
+app.get('/documentation', (req, res) => {
+  res.sendFile('public/documentation.html', { root: __dirname });
+});
 
 
 
-
-  //Get Request-
-  app.get('/documentation', (req, res) => {
-    res.sendFile('public/documentation.html', { root: __dirname });
-  });
-
-
-
-  //Error Handling Middlware
-  app.use((err, req, res, next) => {
-    console.log(err.stack);
-    res.status(500).send('Oops! Something has gone wrong');
-  });
+//Error Handling Middlware
+app.use((err, req, res, next) => {
+  console.log(err.stack);
+  res.status(500).send('Oops! Something has gone wrong');
+});
 
 
 
-  app.listen(8080, () => {
-    console.log('Your app is listening on port 8080.');
-  });
+app.listen(8080, () => {
+  console.log('Your app is listening on port 8080.');
+});
