@@ -66,7 +66,7 @@ app.get('/movies/:Title', (req, res) => {
 // This is the third requirement
 // Get data about genre
 app.get('/genres/:Name', (req, res) => {
-  Genres.findOne({ Name: req.params.Name })
+  Movies.findOne({ 'Genre.Name': req.params.Name })
     .then(genre => {
       res.json(genre);
     })
@@ -78,8 +78,8 @@ app.get('/genres/:Name', (req, res) => {
 
 // This is the fourth requirement
 // Get data about director
-app.get("/directors/:Name", (req, res) => {
-  Directors.findOne({ Name: req.params.Name })
+app.get('/directors/:Name', (req, res) => {
+  Movies.findOne({ 'Director.Name': req.params.Name })
     .then(director => {
       res.json(director);
     })
