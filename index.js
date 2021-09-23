@@ -182,14 +182,10 @@ Email: String,
 Birthday: Date
 }*/
 app.put('/users/:Username',
-[
-  check('Username', 'Username is required').isLength({min: 5}),
-  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-  check('Password', 'Password is required').not().isEmpty(),
-  check('Email', 'Email does not appear to be valid').isEmail()
-],
-passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
+       passport.authenticate('jwt', {session: false} ),
+       (req, res) => {
+  Users.findOneAndUpdate({ Username: req.params.Username },
+  { $set:
     {
       Username: req.body.Username,
       Password: req.body.Password,
@@ -197,11 +193,11 @@ passport.authenticate('jwt', { session: false }), (req, res) => {
       Birthday: req.body.Birthday
     }
   },
-  { new: true }, // This line makes sure that the updated document is returned
-  (error, updatedUser) => {
-    if(error) {
-      console.log(error);
-      res.status(500).send('Error: ' + error);
+  { new: true },
+  (err, updatedUser) => {
+    if(err) {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
     } else {
       res.json(updatedUser);
     }
