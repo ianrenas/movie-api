@@ -1,0 +1,4 @@
+{"_id":{"$oid":"613181cf4649bf796f910c93"},"Username":"eaglemaker","Password":"birdies1234","Email":"brbrbr@yoohoo.com","Birthday":{"$date":{"$numberLong":"-140918400000"}},"FavoriteMovies":[{"$oid":"613049a3776bbba199229fa8"}]}
+{"_id":{"$oid":"613182504649bf796f910c94"},"Username":"johndoeray","Password":"fasolatedo","Email":"jdr@geemail.com","Birthday":{"$date":"1976-09-03T00:00:00Z"},"FavoriteMovies":[]}
+{"_id":{"$oid":"613183ad2889743d0fa5537c"},"Username":"jakeonassis","Password":"blinddog","Email":"jake@geemail.com","Birthday":{"$date":"1981-10-11T00:00:00Z"},"FavoriteMovies":[]}
+{"_id":{"$oid":"613184042889743d0fa5537d"},"Username":"farmerfred","Password":"cornlover","Email":"fred@geemail.com","Birthday":{"$date":{"$numberLong":"-500169600000"}},"FavoriteMovies":[]}
