@@ -1,19 +1,14 @@
-const mongoose = require('mongoose');
-const Models = require('./models.js');
-
-const Movies = Models.Movie;
-const Users = Models.User;
-
-
 const express = require('express'),
-morgan = require('morgan'),
-bodyParser = require('body-parser'),
-uuid = require('uuid');
+      morgan = require('morgan'),
+      mongoose = require('mongoose'),
+      Models = require('./models.js'),
+      bodyParser = require('body-parser'),
+      { check, validationResult } = require('express-validator');
 
-const app = express();
-
-const { check, validationResult } = require('express-validator');
-
+const app = express(),
+      Movies = Models.Movie,
+      Users = Models.User,
+      cors = require('cors');
 
 // Logging middleware
 app.use(morgan('common'));
@@ -21,12 +16,9 @@ app.use(morgan('common'));
 app.use(express.static('public'));
 // Using body-parser
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-//mongoose.connect('mongodb://localhost:27017/movie-apiDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
-//Importing CORS
-const cors = require('cors');
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 
 app.use(cors({
@@ -40,8 +32,14 @@ app.use(cors({
   }
 }));
 
+
+//Local host for testing//
+//mongoose.connect('mongodb://localhost:27017/movie-apiDB', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+
 //Imports auth.js file//
 let auth = require('./auth')(app);
+
 const passport = require('passport');
 require('./passport');
 
@@ -263,7 +261,7 @@ passport.authenticate('jwt', {session: false} ),
       console.log(err.stack);
       res.status(500).send('Oops! Something has gone wrong');
     });
-    
+
 
 
     const port = process.env.PORT || 8080;
