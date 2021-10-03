@@ -1,2 +1,2 @@
-# Super-80's-Flix
+# Super-Cina-Flix
  Node.js app created through backend
