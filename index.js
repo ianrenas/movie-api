@@ -53,20 +53,15 @@ app.get('/', (req, res) => {
 
 // This is the first requirement
 // Return a list of ALL movies to the user
-app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
-  // When "find" is executed is going to return a promise with the movies that it found
+app.get("/movies", function (req, res) {
   Movies.find()
-  .then(movies => {
-    // movies contains the movies founded in the mongodb, this is the same as this
-    // res.json(topTenMovies); but instead of having hardcoded now those came from the db
-    res.json(movies)
-  })
-  .catch(error => {
-    // this will be manage the error, we will console log the error and return
-    // the error to the browser as well
-    console.log(error);
-    res.status(500).send("Error: " + error);
-  });
+    .then(function (movies) {
+      res.status(201).json(movies);
+    })
+    .catch(function (error) {
+      console.error(error);
+      res.status(500).send("Error: " + error);
+    });
 });
 
 
